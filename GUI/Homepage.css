@@ -1,0 +1,38 @@
+body{
+  font-family: 'Acme', sans-serif;
+  background-image: url('background.jpg');
+}
+#Title{
+  text-align: center;
+  font-size: 60px;
+  margin-bottom: 30px;
+  margin-top: 70px;
+}
+#Select{
+  height:35px;
+  padding-right: 10px;
+}
+#SearchText{
+  height:35px;
+}
+#SearchButtom{
+  height:35px;
+}
+#SearchForm{
+  margin-bottom: 40px;
+}
+#ResultsArea{
+  margin-bottom: 40px;
+}
+h2{
+  font-size: 30px;
+}
+#RegisterUserName{
+  width: 200px;
+}
+#RegisterPassword{
+  width: 200px;
+}
+#UserId{
+  width:200px;
+}
