@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Detail Page</title>
+    <link rel="stylesheet" href="{% static "css/Homepage.css" %}"/>
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <style media="screen">
+      body{
+        font-family: 'Acme',sans-serif;
+      }
+      label{
+        font-size: 20px;
+      }
+      .description{
+        font-size: 20px;
+      }
+      .avg_rating{
+        color:red;
+      }
+      .rating{
+        width: 300px;
+        height: 30px;
+      }
+      .RatingSubmit{
+        width:200px;
+        height:30px;
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand navbar-inverse" href="/Homepage.html">Welcome</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="/Homepage.html">Homepage</a></li>
+          <li><a href="#RatingPart">Rating</a></li>
+          <li><a href="/Register.html">Register</a></li>
+          <li><a href="/Login.html">Log In</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <h1 id="Title">{{title}}</h1>
+    </div>
+    <!-- Poster and Description -->
+    <div class="container">
+      {%if image_url %}
+      <img src="{{image_url}}" alt="" class="thumbnail col-lg-6">
+      {% else %}
+      <img src="{% static "image/NoImage.png" %}" alt="" class="thumbnail col-lg-6">
+      {% endif %}
+      <div class="col-lg-5 col-lg-offset-1">
+        <h2>Description:</h2>
+        <p class="description">{{description}}</p>
+        {% if runtime%}
+        <h2>Runtime: {{runtime}} minutes</h2>
+        {% else %}
+        <h2>Runtime: Not mention</h2>
+        {% endif %}
+        <h2>Start Year: {{start_year}}</h2>
+        <h2>Number of Ratings: <span class="avg_rating">{{num_ratings}}</span></h2>
+        <h2>Average Rating: <span class="avg_rating">{{avg_rating|floatformat}}</span></h2>
+        <div>
+            <span><h2>Writers:</h2></span>
+            {% for w in writers %}
+            <a href="/Actordetail.html/{{w.id}}">{{ w.name }}</a>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        </div>
+        <div>
+            <span><h2>Directors:</h2></span>
+            {% for d in directors %}
+            <a href="/Actordetail.html/{{d.id}}">{{ d.name }}</a>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        </div>
+        <div>
+            <span><h2>Full Staff:</h2></span>
+            <div style="overflow: auto; height: 250px">
+                {% for f in actors %}
+                <a href="/Actordetail.html/{{f.id}}">{{ f.name }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- video part -->
+    <div class="container">
+      <div class="thumbnail col-lg-6">
+        <h2>Related Video:</h2>
+        <div class="embed-responsive embed-responsive-4by3">
+          {% if video_url %}
+          <iframe class="embed-responsive-item" src="{{video_url}}"></iframe>
+          {% else %}
+          <img src="{% static "image/NoVideo.jpg" %}" alt="" class="col-lg-12">
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-lg-6">
+
+      </div>
+    </div><br>
+
+    <!-- Rating this movie -->
+    <div class="container" id="RatingPart">
+      <div class="jumbotron">
+        <h1>Rate this movie!</h1>
+        <p>You can rate this movie!</p>
+        <p>Let us know your opinion about this movie!</p>
+      </div>
+      <div class="container">
+          {% if login_con == None %}
+            <div class="alert alert-danger" role="alert">Please log in before rating the movie!</div>
+          {% endif %}
+          {% if success == 0 %}
+            <div class="alert alert-danger" role="alert">You already rated this movie before!</div>
+          {% endif %}
+          {% if rating_out_range %}
+            <div class="alert alert-danger" role="alert">Your rating should between 0 and 10!</div>
+          {% endif %}
+        <form class="" method="POST">
+          <div class="col-lg-6">
+            {%csrf_token%}
+            {{form}}
+          </div>
+          <div class="col-lg-6">
+            <button id="RatingSubmit" type="submit" class="btn btn-primary col-lg-3">Submit</button>
+          </div>
+          <p></p>
+        </form>
+      </div>
+    </div>
+    <div class="container" style="margin-top: 40px">
+      <p>Thank you for visiting our website!</p>
+    </div>
+  </body>
+</html>

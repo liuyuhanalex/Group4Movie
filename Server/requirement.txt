@@ -1,0 +1,44 @@
+1.Package Version
+Python 3.6.4
+Django 2.0.2
+mysqlclient 1.3.12
+cycler-0.10.0
+kiwisolver-1.0.1
+matplotlib-2.2.2
+numpy-1.14.2
+pyparsing-2.2.0
+sqlalchemy-1.2.5
+
+2.First create new table in database:(using for the statistics part)
+(1)Total number by genres:
+CREATE TABLE total_number_by_genres
+
+AS(
+select g.name, count(*) as count
+from genres g join has_genre h on g.id = h.genre_id
+group by g.name);
+
+
+3.Connect with local mySql
+To connect with the mySql:
+Change the 'settings' file inside the project folder
+DATABASES = {
+    'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': 'Databasename',
+            'USER': 'Username',
+            'PASSWORD': 'password',
+    }
+}
+4.Migrate:
+  python manage.py migrate
+  python manage.py makemigration
+
+5.Imdb API:
+  pip install imdbpie
+  
+6.Admin(superuser):
+	username:cs542
+	email:cs542@gmail.com
+	password:cs542project
+/admin go to the admin interface

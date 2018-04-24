@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>User Information</title>
+  </head>
+  <style media="screen">
+    .body{
+      font-family: 'Acme',sans-serif;
+    }
+    #Title{
+      margin-top: 70px;
+      text-align: center;
+    }
+  </style>
+  <body class="body">
+    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand navbar-inverse" href="/Homepage.html">Welcome</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href='/Homepage.html'>Homepage</a></li>
+          <li><a href="/Register.html">Register</a></li>
+          <li><a href="/Login.html">Log In</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <h1 id="Title">User Information</h1>
+      <h3>User ID: {{id}}</h3>
+      <h3>Real Name: {{name}}</h3>
+      <h3>User Name: {{username}}</h3>
+      <h3>Number of Rating: {{num_ratings}}</h3>
+      <h3>Rating history:</h3>
+      <table cellspacing="1" cellpadding="1" border="1" width="1100" class="result_table">
+         <tr>
+          <td>
+           <table cellspacing="1" cellpadding="1" border="1" width="1100" >
+             <tr style="color:white;background-color:grey">
+                <th width="550">Movie Title</th>
+                <th width="550">Rating</th>
+             </tr>
+           </table>
+          </td>
+         </tr>
+        <tr>
+        <td>
+           <div style="width:1100px; height:300px; overflow:auto;">
+             <table cellspacing="1" cellpadding="1" border="1" width="1080" >
+               {% for each in rating_history %}
+               <tr>
+                 <td width="540"><a href="/Detailpage.html/{{each.title.imdb_id}}">{{each.title.primary_title}}</a></td>
+                 <td width="540">{{each.rating}}</td>
+               </tr>
+               {% endfor %}
+             </table>
+           </div>
+          </td>
+         </tr>
+       </table>
+    </div>
+  </body>
+</html>

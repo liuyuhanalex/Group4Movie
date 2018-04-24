@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+{% load staticfiles%}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <title>Actor Detail Page</title>
+  </head>
+  <style media="screen">
+    body{
+        font-family: 'Acme',sans-serif;
+    }
+    #Title{
+      margin-top: 70px;
+      text-align: center;
+    }
+  </style>
+  <body>
+    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand navbar-inverse" href="#Top">Welcome</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="/Homepage.html">Homepage</a></li>
+          <li><a href="/Register.html">Register</a></li>
+          <li><a href="/Login.html">Log in</a></li>
+        </ul>
+      </div>
+    </nav>
+    <h1 id="Title">{{name}}</h1>
+    <div class="container">
+      {%if image_url%}
+      <img src="{{image_url}}" alt="" class="thumbnail col-lg-6">
+      {% else %}
+      <img src= "{% static "image/NoImage.png" %}" alt="" class="thumbnail col-lg-6">
+      {% endif %}
+      <div class="col-lg-5 col-lg-offset-1">
+        <h2>Professions:</h2>
+        {% for p in professions %}
+        <h4>{{ p.name }}</h4>
+        {% endfor %}
+        <h2>Related Movies:</h2>
+        {% for m in known_for%}
+        <a href="/Detailpage.html/{{m.imdb_id}}">{{m.primary_title}}</a><br>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="container">
+      <h3>Biography:</h3>
+      <p>{{description}}</p>
+    </div><br>
+
+    <div class="container">
+      <div class="thumbnail col-lg-6">
+        <h2>Related Video:</h2>
+        <div class="embed-responsive embed-responsive-4by3">
+          {% if video_url %}
+          <iframe class="embed-responsive-item" src="{{video_url}}"></iframe>
+          {% else %}
+          <img src="{% static "image/NoVideo.jpg" %}" alt="" class="col-lg-12">
+          {% endif %}
+        </div>
+      </div>
+      <div class="col-lg-6">
+
+      </div>
+    </div><br>
+
+  </body>
+</html>

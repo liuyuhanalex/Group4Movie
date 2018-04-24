@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Movie Database</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static "css/Homepage.css" %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+  </head>
+  <body class="Top">
+
+    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand navbar-inverse" href="#Top">Welcome</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="#StatisticsPart">Statistics</a></li>
+          <li><a href="Register.html">Register</a></li>
+          <li><a href="Login.html">Log in</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Automatic Slideshow Images -->
+    <div class="mySlides w3-display-container w3-center">
+      <img src="{% static "image/3billboards.jpg"%}" style="width:100%">
+      <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+        <h3>Three Billboards Outside Ebbing,Missouri</h3>
+        <p><b>In the town of Ebbing,Missouri,Mildred Hayes is grieving the rape and murder of her teenage daughter, Angela, seven months earlier.Angry over the lack of progress in the investigation...</b></p>
+      </div>
+    </div>
+    <div class="mySlides w3-display-container w3-center">
+      <img src="{% static "image/shapeofwater.jpg"%}" style="width:100%">
+      <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+        <h3>Shape of Water</h3>
+        <p><b>Elisa Esposito, who was found in a river as an orphaned child with wounds on her neck, is mute, and communicates through sign language. She lives alone in an apartment above a cinema...</b></p>
+      </div>
+    </div>
+    <div class="mySlides w3-display-container w3-center">
+      <img src="{% static "image/ladybird.jpg"%}" style="width:100%">
+      <div class="w3-display-bottommiddle w3-container w3-text-white w3-padding-32 w3-hide-small">
+        <h3>Lady Bird</h3>
+        <p><b>Christine "Lady Bird" MacPherson is a high school senior from the "wrong side of the tracks." She longs for adventure, sophistication, and opportunity, but finds none of that in her Sacramento Catholic high school...</b></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <h1 id="Title">Yet Another Movie Database</h1>
+      <form id="SearchForm" action="Search.html" method="GET">
+        <div class="form_container">
+          {{ form }}
+          {% csrf_token %}
+          <button type="submit" id="SearchButtom" class="btn btn-primary">Search</button>
+        </div>
+      </form>
+      <h2>Results:</h2>
+      <div class="container">
+        <!-- for searching users -->
+        {% if user_result %}
+      <table cellspacing="1" cellpadding="1" border="1" width="1100" class="result_table">
+         <tr>
+          <td>
+           <table cellspacing="1" cellpadding="1" border="1" width="1100" >
+             <tr style="color:white;background-color:grey">
+                <th width="550">User ID</th>
+                <th width="550">User Name</th>
+             </tr>
+           </table>
+          </td>
+         </tr>
+        <tr>
+        <td>
+           <div style="width:1100px; height:300px; overflow:auto;">
+             <table cellspacing="1" cellpadding="1" border="1" width="1100" >
+               {% for each in user_result%}
+               <tr>
+                 <td width="550">{{each.id}}</td>
+                 <td width="550"><a href="Userinfo.html/{{each.id}}">{{each.name}}</a></td>
+               </tr>
+               {% endfor %}
+             </table>
+           </div>
+          </td>
+         </tr>
+       </table>
+
+       <!-- for searching movies -->
+       {% elif movie_result %}
+     <table cellspacing="1" cellpadding="1" border="1" width="1100" class="result_table">
+        <tr>
+         <td>
+          <table cellspacing="1" cellpadding="1" border="1" width="1100" >
+            <tr style="color:white;background-color:grey">
+               <th width="300">Title</th>
+               <th width="200">Type</th>
+               <th width='200'>Is_adult</th>
+               <th width='200'>Start_year</th>
+               <th width='200'>Runtime(minutes)</th>
+            </tr>
+          </table>
+         </td>
+        </tr>
+       <tr>
+       <td>
+          <div style="width:1100px; height:300px; overflow:auto;">
+            <table cellspacing="1" cellpadding="1" border="1" width="1100" >
+              {% for each in movie_result%}
+              <tr>
+                <td width="300"><a href="Detailpage.html/{{each.imdb_id}}">{{each.primary_title}}</a></td>
+                <td width="200">{{each.type.name}}</td>
+                {% if each.is_adult%}
+                <td width='200'>Yes</td>
+                {% else %}
+                <td width='200'>No</td>
+                {% endif%}
+                <td width='200'>{{each.start_year}}</td>
+                {% if each.runtime %}
+                <td width='200'>{{each.runtime}}</td>
+                {% else %}
+                <td width='200'>Not mention</td>
+                {% endif %}
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+         </td>
+        </tr>
+      </table>
+
+
+      <!-- for searching people -->
+      {% elif people_result %}
+    <table cellspacing="1" cellpadding="1" border="1" width="1100" class="result_table">
+       <tr>
+        <td>
+         <table cellspacing="1" cellpadding="1" border="1" width="1100" >
+           <tr style="color:white;background-color:grey">
+              <th width="300">Name</th>
+              <th width="400">Birth Year</th>
+              <th width='400'>Death Year</th>
+           </tr>
+         </table>
+        </td>
+       </tr>
+      <tr>
+      <td>
+         <div style="width:1100px; height:300px; overflow:auto;">
+           <table cellspacing="1" cellpadding="1" border="1" width="1100" >
+             {% for each in people_result%}
+             <tr>
+               <td width="300"><a href="Actordetail.html/{{each.id}}">{{each.name}}</a></td>
+               {% if each.birth_year%}
+               <td width="400">{{each.birth_year}}</td>
+               {% else %}
+               <td width="400">Not mention</td>
+               {% endif %}
+               {% if each.death_year%}
+               <td width='400'>{{each.death_year}}</td>
+               {% else%}
+               <td width="400">Not mention</td>
+               {% endif%}
+             </tr>
+             {% endfor %}
+           </table>
+         </div>
+        </td>
+       </tr>
+     </table>
+     {% else %}
+     <h2>No results yet!</h2>
+     {% endif %}
+
+     </div><br>
+
+      <!-- Statistics part -->
+      </div>
+      <div class="container" id="StatisticsPart">
+        <div class="jumbotron">
+          <h1>Statistics</h1>
+          <p>An overview of our database!</p>
+        </div>
+
+        <!-- Database Overview -->
+        <h3>Database Overview:</h3>
+        <div class="col-lg-12">
+          <table id="OverviewTable" class="table table-bordered">
+            <tr class="success">
+              <td>Total number of titles</td>
+              <td id="TitleNumber">{{total_titles}}</td>
+            </tr>
+            <tr class="warning">
+              <td>Total number of people</td>
+              <td id="PeopleNumber">{{total_people}}</td>
+            </tr>
+            <tr class="danger">
+              <td>Total number of users</td>
+              <td id="UserNumber">{{total_user}}</td>
+            </tr>
+            <tr class = "info">
+              <td>Total number of ratings</td>
+              <td>{{total_ratings}}</td>
+            </tr>
+          </table>
+            <img src="{% static "image/bar1.png"%}" alt="" class="thumbnail" align="center">
+        </div>
+
+        <h3>Number of titles by genre:</h3>
+        <div class="col-lg-7">
+          <table cellspacing="1" cellpadding="1" border="1" class="result_table">
+             <tr>
+              <td>
+               <table cellspacing="1" cellpadding="1" border="1">
+                 <tr style="color:white;background-color:grey">
+                    <th width="250">Genre</th>
+                    <th width="250">Title Count</th>
+                 </tr>
+               </table>
+              </td>
+             </tr>
+            <tr>
+            <td>
+               <div style="height:320px; overflow:auto;">
+                 <table cellspacing="1" cellpadding="1" border="1">
+                   {% for each in genrelist %}
+                   <tr>
+                     <td width="250">{{each.name}}</td>
+                     <td width="250">{{each.num_titles}}</td>
+                   </tr>
+                   {% endfor %}
+                 </table>
+               </div>
+              </td>
+             </tr>
+           </table>
+         </div>
+        <div class="thumbnail col-lg-5">
+          <img id="pic1"src="{% static "image/bar2.png" %}" width="512" height="384">
+        </div>
+
+        <h3>Number of ratings by genre:</h3>
+        <div class="col-lg-7">
+          <table cellspacing="1" cellpadding="1" border="1" class="result_table">
+            <tr>
+              <td>
+                <table cellspacing="1" cellpadding="1" border="1">
+                  <tr style="color:white;background-color:grey">
+                    <th width="250">Genre</th>
+                    <th width="250">Rating Count</th>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div style="height:320px; overflow:auto;">
+                  <table cellspacing="1" cellpadding="1" border="1">
+                    {% for each in genrelist %}
+                    <tr>
+                      <td width="250">{{each.name}}</td>
+                      <td width="250">{{each.num_ratings}}</td>
+                    </tr>
+                    {% endfor %}
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+        <div class="thumbnail col-lg-5">
+          <img src="{% static "image/bar3.png" %}" width="512" height="384">
+        </div>
+
+        <h3>Top ranking titles</h3>
+        <div class="container">
+          <table cellspacing="1" cellpadding="1" border="1" class="result_table">
+             <tr>
+              <td>
+               <table cellspacing="1" cellpadding="1" border="1">
+                 <tr style="color:white;background-color:grey">
+                    <th width="350">Title</th>
+                    <th width="350">Number of Ratings</th>
+                    <th width="350">Average Rating</th>
+                 </tr>
+               </table>
+              </td>
+             </tr>
+            <tr>
+            <td>
+               <div>
+                 <table cellspacing="1" cellpadding="1" border="1">
+                   {% for each in top_titles %}
+                   <tr>
+                     <td width="350"><a href="/Detailpage.html/{{each.imdb_id}}">{{each.primary_title}}</a></td>
+                     <td width="350">{{each.num_ratings}}</td>
+                     <td width="350">{{each.avg_rating|floatformat}}</td>
+                   </tr>
+                   {% endfor %}
+                 </table>
+               </div>
+              </td>
+             </tr>
+           </table>
+        </div>
+      </div>
+      <!-- The Contact Section -->
+        <div class="w3-container w3-content w3-padding-64" style="max-width:800px" id="contact">
+          <h2 class="w3-wide w3-center">CONTACT</h2>
+          <p class="w3-opacity w3-center"><i>Find some bugs? Please let us know!</i></p>
+          <div class="w3-row w3-padding-32">
+            <div class="w3-col m6 w3-large w3-margin-bottom">
+              <i class="fa fa-map-marker" style="width:30px"></i>Worcester Polytechnic Institute<br>
+              <i class="" style="width:30px"></i>100 Institute Road<br>
+              <i class="" style="width:30px"> </i>Worcester, MA | 01609-2280<br>
+            </div>
+            <div class="w3-col m6 w3-large w3-margin-bottom">
+              <i class="fa fa-envelope" style="width:30px"> </i>Haoxiang Ma: hma2@wpi.edu<br>
+              <i class="fa fa-envelope" style="width:30px"></i>Mike Ludwig: mdludwig@wpi.edu<br>
+              <i class="fa fa-envelope" style="width:30px"> </i>Yuhan Liu: yliu26@wpi.edu<br>
+            </div>
+          </div>
+        </div>
+        <!-- Add Google Maps -->
+        <div id="googleMap" style="height:400px;" class="w3-grayscale-max"></div>
+        <script>
+        function myMap()
+        {
+          myCenter=new google.maps.LatLng(42.2745754,-71.8084611);
+          var mapOptions= {
+            center:myCenter,
+            zoom:12, scrollwheel: false, draggable: false,
+            mapTypeId:google.maps.MapTypeId.ROADMAP
+          };
+          var map=new google.maps.Map(document.getElementById("googleMap"),mapOptions);
+
+          var marker = new google.maps.Marker({
+            position: myCenter,
+          });
+          marker.setMap(map);
+        }
+        </script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDJkspyyVQuQGHm52GWHQ6aUESaZD0ZGRg&libraries=places&callback=myMap"></script>
+        <script>
+          // Automatic Slideshow - change image every 4 seconds
+          var myIndex = 0;
+          carousel();
+
+          function carousel() {
+              var i;
+              var x = document.getElementsByClassName("mySlides");
+              for (i = 0; i < x.length; i++) {
+                 x[i].style.display = "none";
+              }
+              myIndex++;
+              if (myIndex > x.length) {myIndex = 1}
+              x[myIndex-1].style.display = "block";
+              setTimeout(carousel, 4000);
+          }
+        </script>
+  </body>
+</html>

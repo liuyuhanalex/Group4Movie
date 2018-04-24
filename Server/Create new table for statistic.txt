@@ -1,0 +1,7 @@
+(1)Total number by genres:
+CREATE TABLE total_number_by_genres
+
+AS(
+select g.name, count(*) as count
+from genres g join has_genre h on g.id = h.genre_id
+group by g.name);

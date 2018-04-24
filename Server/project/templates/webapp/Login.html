@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{%load staticfiles%}
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="{%static "css/Homepage.css" %}"/>
+    <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <style media="screen">
+    .body{
+      font-family: 'Acme',sans-serif;
+    }
+    .login_username{
+      width: 300px;
+      height:30px;
+    }
+    .login_password{
+      width: 300px;
+      height:30px;
+    }
+    #button{
+      margin-left: 10px;
+      width:200px;
+      height:30px;
+    }
+  </style>
+  <body class="body">
+    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand navbar-inverse" href="Homepage.html">Welcome</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li><a href="Homepage.html">Homepage</a></li>
+          <li><a href="Register.html">Register</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="jumbotron">
+        <h1>Login</h1>
+        <p>If you already have an account,please login here!</p>
+        <p>If you don't, you can go to register page and get a new account!</p>
+      </div>
+    </div>
+    <div class="container">
+      {% if success == 1 %}
+      <div class="alert alert-success" role="alert">Lol!Login Successfully!</div>
+      {% elif success == 0 %}
+      <div class="alert alert-danger" role="alert">Oh no!Please check your userID and password!</div>
+      {%else%}
+      {% endif %}
+      {% if User_not_exist %}
+      <div class="alert alert-danger" role="alert">Please check your username!</div>
+      {% endif %}
+    </div>
+    <div class="container">
+      <form method="POST">
+        {{form}}
+        {% csrf_token %}
+        <input type="submit" class="btn btn-primary" value="Submit" id='button'>
+      </form>
+    </div>
+    <div class="container">
+      {%if rating_history%}
+      <h3>Your rating history:</h3>
+      <table cellspacing="1" cellpadding="1" border="1" width="1100" class="result_table">
+         <tr>
+          <td>
+           <table cellspacing="1" cellpadding="1" border="1" width="1100" >
+             <tr style="color:white;background-color:grey">
+                <th width="550">Movie Title</th>
+                <th width="550">Rating</th>
+             </tr>
+           </table>
+          </td>
+         </tr>
+        <tr>
+        <td>
+           <div style="width:1100px; height:300px; overflow:auto;">
+             <table cellspacing="1" cellpadding="1" border="1" width="1100" >
+               {% for each in rating_history%}
+               <tr>
+                 <td width="550">{{each.title.primary_title}}</td>
+                 <td width="550">{{each.rating}}</td>
+               </tr>
+               {% endfor %}
+             </table>
+           </div>
+          </td>
+         </tr>
+       </table>
+       {% endif %}
+    </div>
+  </body>
+</html>

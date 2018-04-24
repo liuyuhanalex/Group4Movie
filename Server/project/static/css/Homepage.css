@@ -1,0 +1,55 @@
+body{
+  font-family: 'Acme',sans-serif;
+}
+#Title{
+  text-align: center;
+  font-size: 60px;
+  margin-bottom: 30px;
+  margin-top: 70px;
+}
+#Select{
+  height:35px;
+  padding-right: 10px;
+}
+#SearchText{
+  height:35px;
+}
+#SearchButtom{
+  height:30px;
+  width: 200px;
+}
+#SearchForm{
+  margin-bottom: 40px;
+}
+#ResultsArea{
+  margin-bottom: 40px;
+}
+h2{
+  font-size: 30px;
+}
+#RegisterUserName{
+  width: 200px;
+}
+#RegisterPassword{
+  width: 200px;
+}
+#UserId{
+  width:200px;
+}
+.RegisterId{
+  color:red;
+}
+.search_content{
+  width: 700px;
+  height: 30px;
+}
+.search_genre{
+  width: 220px;
+  height: 30px;
+}
+.form_container{
+  text-align: center;
+}
+.result_table{
+  border: 2px solid black
+}
